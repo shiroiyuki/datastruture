@@ -5,6 +5,9 @@ String::String() {
 String::String(char* const s) {
     data = s;
 }
+String::~String(){
+    delete []data;
+}
 String& String::operator=(const String& s) {
     if(&s !=this) {
         delete []data;
@@ -19,11 +22,11 @@ String& String::operator=(const char* s) {
     strcpy(data,s);
     return *this;
 }
-char* String::operator+(const String& s) {
+String String::operator+(const String& s) {
     char *temp = new char[strlen(data)+strlen(s.getdata())+1];
     strcpy(temp,data);
     strcat(temp,s.getdata());
-    return temp;
+    return String(temp);
 }
 char& String::operator[](int const i) {
     try{
@@ -46,16 +49,19 @@ std::ostream& operator<<(std::ostream& os,String const& s) {
     os<<s.getdata();
     return os;
 };
+int sizelen(const String& s){
+    return strlen(s.getdata());
+}
 int main( ) {
     String a = "hi",b = "hello";
     a = b;
     b = "Jack";
     cout<<a<<endl;
     cout<<b<<endl;
-    cout<< strlen(a+b)<<endl;
     cout<< a<<endl;
     cout<< b<<endl;
     String c = a+b;
-    cout<< c[10]<<endl;
+    cout<< c<<endl;
+    cout<< sizelen(c)<<endl;
     return 0;
 }
